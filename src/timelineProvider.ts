@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as Twitter from 'twitter';
 // import * as http from 'http';
+
 
 export interface TweetNode {
 	label: string;
@@ -8,41 +10,89 @@ export interface TweetNode {
     time: string;
     content: string;
     type: string;
-    id: number;
+    id: string;
 }
 
 export class TweetModel 
 {
     private nodes: Map<string, TweetNode> = new Map<string, TweetNode>();
+
     
-    constructor() {
+    constructor(private client: Twitter) {
     }
     
+
+    getRawTweets(): Promise<Twitter.ResponseData> {
+        
+        return new Promise((callback, error) => {
+            this.client.get('statuses/user_timeline', function(err, tweets, response) {
+                if (err){
+                    // let's return sample tweets...
+                    error('Error Unable to get tweets: ' + err.message);
+                } 
+                callback(tweets);
+            });
+        });  
+    }
+
     fetchTweets(): Thenable<any>
     {
 
-        // all i have todo is to start manipulating this tweets array to look like below programatically...
-        let tweets = [
-                {
-                    label: 'Victor Aremu',
-                    username: '@Ahkohd',
-                    time: '2 min ago',
-                    content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
-                    id: 1094374464534573056,
-                    type: 'head',
-              
-                },
-                {
-                    label: 'Victor Aremu',
-                    username: '@Ahkohd',
-                    time: '2 min ago',
-                    content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
-                    id: 1091810321914826752,
-                    type: 'head',
-         
-                }
-            ];
-            return Promise.resolve(tweets);
+        return new Promise((callback, error) => {
+            this.getRawTweets().then(rawTweets => {
+                // raw tweets is now gotten... lets us manipuate it :)
+
+                let tweets = [
+                    {
+                        label: 'Victor Aremu',
+                        username: '@Ahkohd',
+                        time: '2 min ago',
+                        content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
+                        id: '1094374464534573056',
+                        type: 'head',
+                
+                    },
+                    {
+                        label: 'Victor Aremu',
+                        username: '@Ahkohd',
+                        time: '2 min ago',
+                        content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
+                        id: '1091810321914826752',
+                        type: 'head',
+            
+                    }
+                ];
+
+
+                callback(tweets);
+            }).catch(err => {
+                // opps! an error occured...
+                error(err);
+            });
+        });
+        
+
+        //  let tweets = [
+        //     {
+        //         label: 'Victor Aremu',
+        //         username: '@Ahkohd',
+        //         time: '2 min ago',
+        //         content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
+        //         id: '1094374464534573056',
+        //         type: 'head',
+        
+        //     },
+        //     {
+        //         label: 'Victor Aremu',
+        //         username: '@Ahkohd',
+        //         time: '2 min ago',
+        //         content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
+        //         id: '1091810321914826752',
+        //         type: 'head',
+    
+        //     }
+        // ];
+        // return Promise.resolve(tweets);
     }
 
     public get roots(): Thenable<TweetNode[]> {
@@ -87,7 +137,8 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
             tooltip: (element.type === 'head') ? `${element.username} ● ${element.time}` : undefined,
             iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources',  'icon.svg'), dark: path.join(__filename, '..', '..', 'resources',  'entry.svg')} : undefined,
             collapsibleState: (element.type === 'head') ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None,
-            command: (element.type === 'head') ? undefined : {command: 'extension.tweetInBrowser',title: '',arguments: [(element.username.split('@'))[1], element.id]} 
+            command: (element.type === 'head') ? undefined : {command: 'extension.tweetInBrowser',title: '',arguments: [(element.username.split('@'))[1], element.id]},
+        	contextValue: (element.type === 'head') ? 'tweet-head' : 'tweet-body'
         };
     }
     
@@ -111,8 +162,8 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
 export class TimeLine {
     private timeline: vscode.TreeView<TweetNode>;
 
-    constructor(context: vscode.ExtensionContext) {
-		const tweetModel = new TweetModel();
+    constructor(context: vscode.ExtensionContext, client: Twitter) {
+        const tweetModel = new TweetModel(client);
 		const treeDataProvider = new TimelineProvider(tweetModel);
         this.timeline = vscode.window.createTreeView('twitterTimeline', { treeDataProvider });
         // register commands...

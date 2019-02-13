@@ -24,58 +24,98 @@
 				"command": "postTweets.tweet",
 				"title": "Tweet",
 				"icon": {
-				  "light": "resources/light/tweet.svg",
-				  "dark": "resources/dark/tweet.svg"
+					"light": "resources/light/tweet.svg",
+					"dark": "resources/dark/tweet.svg"
 				}
-			  },
-			  {
+			},
+			{
 				"command": "twitterTimeline.refresh",
 				"title": "Refresh",
 				"icon": {
-				  "light": "resources/light/refresh.svg",
-				  "dark": "resources/dark/refresh.svg"
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
 				}
-			  }
+			},
+			{
+				"command": "twitterTimeline.like",
+				"title": "Like",
+				"icon": {
+					"light": "resources/light/favourite.svg",
+					"dark": "resources/dark/favourite.svg"
+				}
+			},
+			{
+				"command": "twitterTimeline.retweet",
+				"title": "Retweet",
+				"icon": {
+					"light": "resources/light/retweet.svg",
+					"dark": "resources/dark/retweet.svg"
+				}
+			},
+			{
+				"command": "twitterTimeline.reply",
+				"title": "Reply",
+				"icon": {
+					"light": "resources/light/comment.svg",
+					"dark": "resources/dark/comment.svg"
+				}
+			}
 		],
-
 		"viewsContainers": {
-            "activitybar": [
-                {
-                    "id": "vscodeTweet",
-                    "title": "Vscode Tweet",
+			"activitybar": [
+				{
+					"id": "vscodeTweet",
+					"title": "Vscode Tweet",
 					"icon": "resources/icon.svg"
-                }
-            ]
+				}
+			]
 		},
 		"views": {
-            "vscodeTweet": [
+			"vscodeTweet": [
 				{
-                    "id": "postTweets",
-                    "name": "What's happening?"
-                },
-                {
-                    "id": "twitterTimeline",
+					"id": "postTweets",
+					"name": "What's happening?"
+				},
+				{
+					"id": "twitterTimeline",
 					"name": "Recent Tweets"
-                },
-                {
-                    "id": "searchTweets",
-                    "name": "Search"
-                }
-            ]
+				},
+				{
+					"id": "searchTweets",
+					"name": "Search"
+				}
+			]
 		},
 		"menus": {
 			"view/title": [
 				{
-				  "command": "twitterTimeline.refresh",
-				  "group": "navigation",
-				  "when":"view == twitterTimeline"
+					"command": "twitterTimeline.refresh",
+					"group": "navigation",
+					"when": "view == twitterTimeline"
 				},
 				{
-				  "command": "postTweets.tweet",
-				  "group": "navigation",
-				  "when":"view == postTweets"
+					"command": "postTweets.tweet",
+					"group": "navigation",
+					"when": "view == postTweets"
 				}
-			  ]
+			],
+			"view/item/context": [
+				{
+					"command": "twitterTimeline.retweet",
+					"when": "view == twitterTimeline && viewItem == tweet-head",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.reply",
+					"when": "view == twitterTimeline && viewItem == tweet-head",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.like",
+					"when": "view == twitterTimeline && viewItem == tweet-head",
+					"group": "inline"
+				}
+			]
 		}
 	},
 	"scripts": {
@@ -91,5 +131,9 @@
 		"tslint": "^5.12.1",
 		"@types/node": "^10.12.21",
 		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"@types/twitter": "^1.7.0",
+		"twitter": "^1.7.1"
 	}
 }

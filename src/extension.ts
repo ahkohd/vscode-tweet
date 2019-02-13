@@ -1,7 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as Twitter from 'twitter';
 import { TimeLine } from './timelineProvider';
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -20,14 +22,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// context.subscriptions.push(disposable);
 
-
-	// Register providers...
-	// const tweetTimeline = new TimeLineNodeProvider({username: 'ahkohd'});
-	// vscode.window.registerTreeDataProvider('twitterTimeline', tweetTimeline);
-	// vscode.commands.registerCommand('twitterTimeline.refresh', () => tweetTimeline.refresh());
-	// vscode.commands.registerCommand('extension.openPackageOnNpm', moduleName => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.npmjs.com/package/${moduleName}`)));
-
-	new TimeLine(context);
+	// Create an Instance of the Twitter CLient 
+	let client = new Twitter({
+		consumer_key: 'ck',
+		consumer_secret: 'cs',
+		access_token_key: 'atk',
+		access_token_secret: 'ats'
+	  });
+	  
+	new TimeLine(context, client);
 
 }
 
