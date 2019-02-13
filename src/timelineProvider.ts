@@ -8,6 +8,7 @@ export interface TweetNode {
     time: string;
     content: string;
     type: string;
+    id: number;
 }
 
 export class TweetModel 
@@ -19,23 +20,26 @@ export class TweetModel
     
     fetchTweets(): Thenable<any>
     {
+
+        // all i have todo is to start manipulating this tweets array to look like below programatically...
         let tweets = [
                 {
                     label: 'Victor Aremu',
-                    username: '@ahkohd',
+                    username: '@Ahkohd',
                     time: '2 min ago',
                     content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
-                    id: 1,
-                    type: 'head'
+                    id: 1094374464534573056,
+                    type: 'head',
+              
                 },
                 {
                     label: 'Victor Aremu',
-                    username: '@ahkohd',
+                    username: '@Ahkohd',
                     time: '2 min ago',
-                    content: 'lorem lorem lorem lorem lorem lorem lorem  \n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
-                    id: 2,
-                    type: 'head'
-
+                    content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
+                    id: 1091810321914826752,
+                    type: 'head',
+         
                 }
             ];
             return Promise.resolve(tweets);
@@ -54,7 +58,8 @@ export class TweetModel
         let childs: TweetNode[] = [];
         for (let i =0; i < newLines.length; i++)
         {
-            childs.push({label: '', content: newLines[i], username: '', time: '', type: 'body'});
+            // creates the tweet content node...
+            childs.push({label: '', content: newLines[i], username: node.username, time: '', type: 'body', id: node.id});
         }
         return Promise.resolve(childs);
     }
@@ -74,12 +79,15 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
     }
     
     public getTreeItem(element: TweetNode): vscode.TreeItem {
+
+        // represents both the tweet head and body
 		return {
             label: element.label,
             description: (element.type === 'head') ? `${element.username} ● ${element.time}` : `${element.content}`,
             tooltip: (element.type === 'head') ? `${element.username} ● ${element.time}` : undefined,
             iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources',  'icon.svg'), dark: path.join(__filename, '..', '..', 'resources',  'entry.svg')} : undefined,
-            collapsibleState: (element.type === 'head') ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None
+            collapsibleState: (element.type === 'head') ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None,
+            command: (element.type === 'head') ? undefined : {command: 'extension.tweetInBrowser',title: '',arguments: [(element.username.split('@'))[1], element.id]} 
         };
     }
     
@@ -88,11 +96,12 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
     }
     
     public getParent(element: TweetNode): TweetNode {
+        // creates the tweet head....
 		if (element.type === 'head') {
-            return {label: element.label, time: element.time, username: element.username, type: 'head', content: ''};
+            return {label: element.label, time: element.time, username: element.username, type: 'head', content: '', id: element.id};
         } else
         {
-            return {label: '',  time: '', username: '', type: 'body', content: element.content};
+            return {label: '',  time: '', username: element.username, type: 'body', content: element.content, id: element.id};
         }
     }
 
@@ -105,8 +114,10 @@ export class TimeLine {
     constructor(context: vscode.ExtensionContext) {
 		const tweetModel = new TweetModel();
 		const treeDataProvider = new TimelineProvider(tweetModel);
-		this.timeline = vscode.window.createTreeView('twitterTimeline', { treeDataProvider });
-
+        this.timeline = vscode.window.createTreeView('twitterTimeline', { treeDataProvider });
+        // register commands...
+        // 1. open tweet in browser ...
+        vscode.commands.registerCommand('extension.tweetInBrowser', (screen_name, tweet_id) => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.twitter.com/${screen_name}/status/${tweet_id}`)));
 		vscode.commands.registerCommand('twitterTimeline.refresh', () => treeDataProvider.refresh());
 	}
 }
