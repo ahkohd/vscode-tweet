@@ -125,12 +125,14 @@ export class TweetModel
 
     getProfilePicture(username: string, pics_url: string) : void
     {
-        let pics_exists = this.pathExists(path.join((__dirname.split('out'))[0], 'resources', 'profilePictures', username+'.jpg'));
+
+        let pics_exists = this.pathExists(path.join(__filename, '..', '..', 'resources', 'profilePictures', username+'.jpg'));
+
         if (!pics_exists) {
             // console.log(username, "pic does not exits");
             const options = {
                 url: pics_url,
-                dest: path.join((__dirname.split('out'))[0], 'resources', 'profilePictures', username+'.jpg')                  // Save to /path/to/dest/image.jpg
+                dest: path.join(__filename, '..', '..', 'resources', 'profilePictures', username+'.jpg')                
               };
 
               async function downloadIMG() {

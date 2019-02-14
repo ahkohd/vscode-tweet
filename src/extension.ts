@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as Twitter from 'twitter';
 import { TimeLine } from './timelineProvider';
+import { PostTweetProvider} from './postTweetProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -20,6 +21,11 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+
+
+
+	
+
 	context.subscriptions.push(disposable);
 
 	// Create an Instance of the Twitter CLient 
@@ -30,8 +36,8 @@ export function activate(context: vscode.ExtensionContext) {
 		access_token_secret: '6GnTRFBjKt2IdLV0a4Lqv7wzHOxSfcTdVMMgJFT3dfxOX'
 	  });
 
-
-	  
+	  // Register providers
+	vscode.window.registerTreeDataProvider('postTweets', new PostTweetProvider(client));
 	new TimeLine(context, client);
 
 }

@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:twitterTimeline"
+		"onView:twitterTimeline",
+		"onView:postTweets"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
