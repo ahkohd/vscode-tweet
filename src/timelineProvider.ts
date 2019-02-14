@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as Twitter from 'twitter';
-// import * as http from 'http';
 
 
 export interface TweetNode {
@@ -19,80 +18,81 @@ export class TweetModel
 
     
     constructor(private client: Twitter) {
+
     }
     
 
     getRawTweets(): Promise<Twitter.ResponseData> {
-        
+
         return new Promise((callback, error) => {
-            this.client.get('statuses/user_timeline', function(err, tweets, response) {
+            this.client.get('statuses/home_timeline', function(err, tweets, response) {
                 if (err){
                     // let's return sample tweets...
+            
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: ' + err[0].message);
                     error('Error Unable to get tweets: ' + err.message);
                 } 
+                vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Loading Tweets...');
                 callback(tweets);
             });
         });  
     }
 
+    prepaireTweets(rawTweets: any): Array<TweetNode> {
+            let out: TweetNode[] = [];
+            for( let i = 0; i < rawTweets.length; i++) {
+                out.push({
+                    label: rawTweets[i].user.name,
+                    username: rawTweets[i].user.screen_name,
+                    time: rawTweets[i].created_at,
+                    id: rawTweets[i].id,
+                    type: 'head',
+                    content: `${rawTweets[i].text}  \n💬 (10)    ❤️ (${rawTweets[i].favorite_count})    🔁 (${rawTweets[i].retweet_count})`
+                });       
+            }
+
+            return out;
+    }
+
     fetchTweets(): Thenable<any>
     {
+        vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Fetching Tweets!');
 
         return new Promise((callback, error) => {
             this.getRawTweets().then(rawTweets => {
-                // raw tweets is now gotten... lets us manipuate it :)
+                // raw tweets is now gotten... lets us manipuate it :) to look like below...
+                console.log(rawTweets);
 
-                let tweets = [
-                    {
-                        label: 'Victor Aremu',
-                        username: '@Ahkohd',
-                        time: '2 min ago',
-                        content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
-                        id: '1094374464534573056',
-                        type: 'head',
+                // let tweets = [
+                //     {
+                //         label: 'Victor Aremu',
+                //         username: '@Ahkohd',
+                //         time: '2 min ago',
+                //         content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
+                //         id: '1094374464534573056',
+                //         type: 'head',
                 
-                    },
-                    {
-                        label: 'Victor Aremu',
-                        username: '@Ahkohd',
-                        time: '2 min ago',
-                        content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
-                        id: '1091810321914826752',
-                        type: 'head',
+                //     },
+                //     {
+                //         label: 'Victor Aremu',
+                //         username: '@Ahkohd',
+                //         time: '2 min ago',
+                //         content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
+                //         id: '1091810321914826752',
+                //         type: 'head',
             
-                    }
-                ];
+                //     }
+                // ];
 
-
+                let tweets = this.prepaireTweets(rawTweets);
                 callback(tweets);
             }).catch(err => {
                 // opps! an error occured...
                 error(err);
             });
         });
-        
 
-        //  let tweets = [
-        //     {
-        //         label: 'Victor Aremu',
-        //         username: '@Ahkohd',
-        //         time: '2 min ago',
-        //         content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
-        //         id: '1094374464534573056',
-        //         type: 'head',
-        
-        //     },
-        //     {
-        //         label: 'Victor Aremu',
-        //         username: '@Ahkohd',
-        //         time: '2 min ago',
-        //         content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
-        //         id: '1091810321914826752',
-        //         type: 'head',
-    
-        //     }
-        // ];
-        // return Promise.resolve(tweets);
+
     }
 
     public get roots(): Thenable<TweetNode[]> {
@@ -169,6 +169,6 @@ export class TimeLine {
         // register commands...
         // 1. open tweet in browser ...
         vscode.commands.registerCommand('extension.tweetInBrowser', (screen_name, tweet_id) => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.twitter.com/${screen_name}/status/${tweet_id}`)));
-		vscode.commands.registerCommand('twitterTimeline.refresh', () => treeDataProvider.refresh());
+        vscode.commands.registerCommand('twitterTimeline.refresh', () => treeDataProvider.refresh());
 	}
 }
