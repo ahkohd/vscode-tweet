@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as Twitter from 'twitter';
+const timeago = require('node-time-ago');
+import * as fs from 'fs';
+const download = require('image-downloader');
 
 
 export interface TweetNode {
@@ -10,6 +13,9 @@ export interface TweetNode {
     content: string;
     type: string;
     id: string;
+    favorited: boolean;
+    retweeted: boolean;
+    user_pics: string;
 }
 
 export class TweetModel 
@@ -25,7 +31,7 @@ export class TweetModel
     getRawTweets(): Promise<Twitter.ResponseData> {
 
         return new Promise((callback, error) => {
-            this.client.get('statuses/home_timeline', function(err, tweets, response) {
+            this.client.get('statuses/home_timeline.json?count=40?exclude_replies', function(err, tweets, response) {
                 if (err){
                     // let's return sample tweets...
             
@@ -38,21 +44,116 @@ export class TweetModel
         });  
     }
 
+    chunkifyTweet(a: any[], n: number, balanced: boolean) {
+    
+        if (n < 2) {
+            return [a];
+        }
+    
+        let len = a.length,
+                out = [],
+                i = 0,
+                size;
+    
+        if (len % n === 0) {
+            size = Math.floor(len / n);
+            while (i < len) {
+                out.push(a.slice(i, i += size));
+            }
+        }
+    
+        else if (balanced) {
+            while (i < len) {
+                size = Math.ceil((len - i) / n--);
+                out.push(a.slice(i, i += size));
+            }
+        }
+    
+        else {
+    
+            n--;
+            size = Math.floor(len / n);
+            if (len % size === 0) {  size--; }
+            while (i < size * n) {
+                out.push(a.slice(i, i += size));
+            }
+            out.push(a.slice(size * n));
+    
+        }
+    
+        return out;
+    }
+
     prepaireTweets(rawTweets: any): Array<TweetNode> {
+
+        let limitPerLine = (text: string, limit: number) => {
+            let eachLines = this.chunkifyTweet(text.split(' '), limit,  false);
+                for(let i =0; i < eachLines.length; i++)
+                {
+                    eachLines[i] = eachLines[i].reduce((prev, current) => {
+                            return prev +' '+current;
+                    });
+                } 
+            return (eachLines.join('\n'));
+
+        };
             let out: TweetNode[] = [];
             for( let i = 0; i < rawTweets.length; i++) {
                 out.push({
                     label: rawTweets[i].user.name,
-                    username: rawTweets[i].user.screen_name,
-                    time: rawTweets[i].created_at,
-                    id: rawTweets[i].id,
+                    username: '@'+rawTweets[i].user.screen_name,
+                    time: timeago(rawTweets[i].created_at, 'en_US'),
+                    id: rawTweets[i].id_str,
                     type: 'head',
-                    content: `${rawTweets[i].text}  \n💬 (10)    ❤️ (${rawTweets[i].favorite_count})    🔁 (${rawTweets[i].retweet_count})`
-                });       
+                    favorited: rawTweets[i].favorited,
+                    retweeted: rawTweets[i].retweeted,
+                    user_pics: rawTweets[i].user.profile_image_url,
+                    content: `${(rawTweets[i].text.length >= 100) ? limitPerLine(rawTweets[i].text, 3) :  rawTweets[i].text}  \n💬 (10)    ❤️ (${rawTweets[i].favorite_count})    🔁 (${rawTweets[i].retweet_count})`
+                });
+                this.getProfilePicture('@'+rawTweets[i].user.screen_name, rawTweets[i].user.profile_image_url)
+                
             }
 
             return out;
     }
+
+
+    getProfilePicture(username: string, pics_url: string) : void
+    {
+        let pics_exists = this.pathExists(path.join((__dirname.split('out'))[0], 'resources', 'profilePictures', username+'.jpg'));
+        if (!pics_exists) {
+            // console.log(username, "pic does not exits");
+            const options = {
+                url: pics_url,
+                dest: path.join((__dirname.split('out'))[0], 'resources', 'profilePictures', username+'.jpg')                  // Save to /path/to/dest/image.jpg
+              };
+
+              async function downloadIMG() {
+                try {
+                  const { filename, image } = await download.image(options);
+                  console.log(filename); 
+                } catch (e) {
+                  console.error(e);
+                }
+              }
+               
+              downloadIMG();
+
+        } else
+        {
+            // console.log(username, "pic does  exits");
+        }
+    }
+
+    private pathExists(p: string): boolean {
+		try {
+			fs.accessSync(p);
+		} catch (err) {
+			return false;
+		}
+
+		return true;
+	}
 
     fetchTweets(): Thenable<any>
     {
@@ -61,28 +162,8 @@ export class TweetModel
         return new Promise((callback, error) => {
             this.getRawTweets().then(rawTweets => {
                 // raw tweets is now gotten... lets us manipuate it :) to look like below...
-                console.log(rawTweets);
+                console.log(rawTweets[10]);
 
-                // let tweets = [
-                //     {
-                //         label: 'Victor Aremu',
-                //         username: '@Ahkohd',
-                //         time: '2 min ago',
-                //         content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
-                //         id: '1094374464534573056',
-                //         type: 'head',
-                
-                //     },
-                //     {
-                //         label: 'Victor Aremu',
-                //         username: '@Ahkohd',
-                //         time: '2 min ago',
-                //         content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
-                //         id: '1091810321914826752',
-                //         type: 'head',
-            
-                //     }
-                // ];
 
                 let tweets = this.prepaireTweets(rawTweets);
                 callback(tweets);
@@ -109,7 +190,11 @@ export class TweetModel
         for (let i =0; i < newLines.length; i++)
         {
             // creates the tweet content node...
-            childs.push({label: '', content: newLines[i], username: node.username, time: '', type: 'body', id: node.id});
+            childs.push({label: '', content: newLines[i], username: node.username,
+             time: '', type: 'body', id: node.id,
+                favorited: node.favorited,
+             retweeted: node.retweeted,
+             user_pics: '',});
         }
         return Promise.resolve(childs);
     }
@@ -133,9 +218,10 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
         // represents both the tweet head and body
 		return {
             label: element.label,
-            description: (element.type === 'head') ? `${element.username} ● ${element.time}` : `${element.content}`,
-            tooltip: (element.type === 'head') ? `${element.username} ● ${element.time}` : undefined,
-            iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources',  'icon.svg'), dark: path.join(__filename, '..', '..', 'resources',  'entry.svg')} : undefined,
+            description: (element.type === 'head') ? `${element.username}  ●  ${element.time}` : `${element.content}`,
+            tooltip: (element.type === 'head') ? `${element.username}  ●  ${element.time}` : undefined,
+            iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources', 'profilePictures', element.username+'.jpg'), dark: path.join(__filename, '..', '..', 'resources', 'profilePictures', element.username+'.jpg')} : undefined,
+            // iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources',  'icon.svg'), dark: path.join(__filename, '..', '..', 'resources',  'entry.svg')} : undefined,
             collapsibleState: (element.type === 'head') ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None,
             command: (element.type === 'head') ? undefined : {command: 'extension.tweetInBrowser',title: '',arguments: [(element.username.split('@'))[1], element.id]},
         	contextValue: (element.type === 'head') ? 'tweet-head' : 'tweet-body'
@@ -149,10 +235,17 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
     public getParent(element: TweetNode): TweetNode {
         // creates the tweet head....
 		if (element.type === 'head') {
-            return {label: element.label, time: element.time, username: element.username, type: 'head', content: '', id: element.id};
+            return {label: element.label, time: element.time, username: element.username, type: 'head', content: '', id: element.id,
+            favorited: element.favorited,
+            retweeted: element.retweeted,
+            user_pics: element.user_pics,
+        };
         } else
         {
-            return {label: '',  time: '', username: element.username, type: 'body', content: element.content, id: element.id};
+            return {label: '',  time: '', username: element.username, type: 'body', content: element.content, id: element.id,
+            favorited: element.favorited,
+            retweeted: element.retweeted,
+            user_pics: '',};
         }
     }
 

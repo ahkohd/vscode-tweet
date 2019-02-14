@@ -63,3 +63,27 @@ Added features X, Y, and Z.
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+
+final tweet render
+```js
+                // let tweets = [
+                //     {
+                //         label: 'Victor Aremu',
+                //         username: '@Ahkohd',
+                //         time: '2 min ago',
+                //         content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
+                //         id: '1094374464534573056',
+                //         type: 'head',
+                
+                //     },
+                //     {
+                //         label: 'Victor Aremu',
+                //         username: '@Ahkohd',
+                //         time: '2 min ago',
+                //         content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
+                //         id: '1091810321914826752',
+                //         type: 'head',
+            
+                //     }
+                // ];
+```

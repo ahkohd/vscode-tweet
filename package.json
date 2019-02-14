@@ -60,7 +60,7 @@
 				}
 			},
 			{
-				"command":"vscode-tweet.showMsg",
+				"command": "vscode-tweet.showMsg",
 				"title": "vscode-tweet"
 			}
 		],
@@ -137,6 +137,8 @@
 	},
 	"dependencies": {
 		"@types/twitter": "^1.7.0",
+		"image-downloader": "^3.4.2",
+		"node-time-ago": "^1.0.0",
 		"twitter": "^1.7.1"
 	}
 }
