@@ -35,7 +35,12 @@ export class TweetModel
                 if (err){
                     // let's return sample tweets...
             
-                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: ' + err[0].message);
+                    try {
+                        vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: ' + err[0].message);
+                    } catch(e) {
+                        throw "Error occured while fetching tweets and was unable to alert user";
+                    
+                    }
                     error('Error Unable to get tweets: ' + err.message);
                 } 
                 vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Loading Tweets...');
@@ -108,7 +113,7 @@ export class TweetModel
                     favorited: rawTweets[i].favorited,
                     retweeted: rawTweets[i].retweeted,
                     user_pics: rawTweets[i].user.profile_image_url,
-                    content: `${(rawTweets[i].text.length >= 100) ? limitPerLine(rawTweets[i].text, 3) :  rawTweets[i].text}  \n💬 (10)    ❤️ (${rawTweets[i].favorite_count})    🔁 (${rawTweets[i].retweet_count})`
+                    content: `${(rawTweets[i].text.length >= 100) ? limitPerLine(rawTweets[i].text, 3) :  rawTweets[i].text}  \n❤️ (${rawTweets[i].favorite_count})    🔁 (${rawTweets[i].retweet_count})`
                 });
                 this.getProfilePicture('@'+rawTweets[i].user.screen_name, rawTweets[i].user.profile_image_url)
                 
@@ -131,9 +136,9 @@ export class TweetModel
               async function downloadIMG() {
                 try {
                   const { filename, image } = await download.image(options);
-                  console.log(filename); 
+                //   console.log(filename); 
                 } catch (e) {
-                  console.error(e);
+                //   console.error(e);
                 }
               }
                
@@ -162,7 +167,7 @@ export class TweetModel
         return new Promise((callback, error) => {
             this.getRawTweets().then(rawTweets => {
                 // raw tweets is now gotten... lets us manipuate it :) to look like below...
-                console.log(rawTweets[10]);
+                console.log(rawTweets[4]);
 
 
                 let tweets = this.prepaireTweets(rawTweets);
@@ -219,12 +224,12 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
 		return {
             label: element.label,
             description: (element.type === 'head') ? `${element.username}  ●  ${element.time}` : `${element.content}`,
-            tooltip: (element.type === 'head') ? `${element.username}  ●  ${element.time}` : undefined,
+            tooltip: (element.type === 'head') ? `${element.label} ${element.username}  ●  ${element.time}` : undefined,
             iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources', 'profilePictures', element.username+'.jpg'), dark: path.join(__filename, '..', '..', 'resources', 'profilePictures', element.username+'.jpg')} : undefined,
             // iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources',  'icon.svg'), dark: path.join(__filename, '..', '..', 'resources',  'entry.svg')} : undefined,
             collapsibleState: (element.type === 'head') ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None,
             command: (element.type === 'head') ? undefined : {command: 'extension.tweetInBrowser',title: '',arguments: [(element.username.split('@'))[1], element.id]},
-        	contextValue: (element.type === 'head') ? 'tweet-head' : 'tweet-body'
+        	contextValue: (element.type === 'head') ? (element.favorited) ? 'tweet-head-fav' : 'tweet-head-nofav' : 'tweet-body'
         };
     }
     

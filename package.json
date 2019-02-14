@@ -44,6 +44,14 @@
 				}
 			},
 			{
+				"command": "twitterTimeline.unlike",
+				"title": "Like",
+				"icon": {
+					"light": "resources/light/faved.svg",
+					"dark": "resources/dark/faved.svg"
+				}
+			},
+			{
 				"command": "twitterTimeline.retweet",
 				"title": "Retweet",
 				"icon": {
@@ -105,17 +113,32 @@
 			"view/item/context": [
 				{
 					"command": "twitterTimeline.retweet",
-					"when": "view == twitterTimeline && viewItem == tweet-head",
+					"when": "view == twitterTimeline && viewItem == tweet-head-fav",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.retweet",
+					"when": "view == twitterTimeline && viewItem == tweet-head-nofav",
 					"group": "inline"
 				},
 				{
 					"command": "twitterTimeline.reply",
-					"when": "view == twitterTimeline && viewItem == tweet-head",
+					"when": "view == twitterTimeline && viewItem == tweet-head-fav",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.reply",
+					"when": "view == twitterTimeline && viewItem == tweet-head-nofav",
 					"group": "inline"
 				},
 				{
 					"command": "twitterTimeline.like",
-					"when": "view == twitterTimeline && viewItem == tweet-head",
+					"when": "view == twitterTimeline && viewItem == tweet-head-nofav",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.unlike",
+					"when": "view == twitterTimeline && viewItem == tweet-head-fav",
 					"group": "inline"
 				}
 			]
