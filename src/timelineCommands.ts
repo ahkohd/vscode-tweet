@@ -25,6 +25,16 @@ export default class TimelineCommands
 
 
                     node.retweeted = true;
+
+                    // logics to parse text content and update the string with the latest retweet count...
+                    let updateContent = node.content;
+                    let chunck = updateContent.split('🔁');
+                    // replace all none number chacter with nothing and the convert to number...
+                    let count = Number.parseInt((chunck[1]).match(/\d+/)[0]);
+                    console.log(count);
+                    updateContent = `${chunck[0]}🔁 (${count+1})`;
+                    node.content = updateContent;
+
                     vscode.commands.executeCommand('twitterTimeline.refresh', node);
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Retweeted!');
                 }
@@ -48,6 +58,17 @@ export default class TimelineCommands
                     node.contextValue = 'tweet-head-nofav';
                 }
                 node.retweeted = false;
+
+                 // logics to parse text content and update the string with the latest retweet count...
+                 let updateContent = node.content;
+                 let chunck = updateContent.split('🔁');
+                 // replace all none number chacter with nothing and the convert to number...
+                 let count = Number.parseInt((chunck[1]).match(/\d+/)[0]);
+                 console.log(count);
+                 updateContent = `${chunck[0]}🔁 (${count-1})`;
+                 node.content = updateContent;
+
+
                 vscode.commands.executeCommand('twitterTimeline.refresh', node);
                 vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Un-Retweeted!');
             }
@@ -90,6 +111,18 @@ export default class TimelineCommands
                 } else
                 {
                     node.favorited = true;
+
+                    // logics to parse text content and update the string with the latest favourite...
+                    let updateContent = node.content;
+                    let chunck: string[] = updateContent.split('❤️');
+                    let chunck1 = (chunck[1].split('🔁'))[0];
+                    // replace all none number chacter with nothing and the convert to number...
+                    let count = Number.parseInt((<any>chunck1).match(/\d+/)[0]);
+                    console.log('fav', count);
+                    updateContent = `${chunck[0]}❤️ (${count+1})    🔁${(updateContent.split('🔁'))[1]}`;
+                    node.content = updateContent;
+
+
                     vscode.commands.executeCommand('twitterTimeline.refresh', node);
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Tweet Favourited!');
                 }
@@ -107,6 +140,18 @@ export default class TimelineCommands
             } else
             {
                 node.favorited = false;
+
+                  // logics to parse text content and update the string with the latest favourite...
+                  let updateContent = node.content;
+                  let chunck: string[] = updateContent.split('❤️');
+                  let chunck1 = (chunck[1].split('🔁'))[0];
+                  // replace all none number chacter with nothing and the convert to number...
+                  let count = Number.parseInt((<any>chunck1).match(/\d+/)[0]);
+                  console.log('fav', count);
+                  updateContent = `${chunck[0]}❤️ (${count-1})    🔁${(updateContent.split('🔁'))[1]}`;
+                  node.content = updateContent;
+
+
                 vscode.commands.executeCommand('twitterTimeline.refresh', node);
                 vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Tweet Un-favorited!');
             }
