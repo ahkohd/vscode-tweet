@@ -6,6 +6,10 @@ import { TimeLine } from './timelineProvider';
 import { PostTweetProvider} from './postTweetProvider';
 import TimelineCommands from './timelineCommands';
 
+import { UserWall } from './userWallProvider';
+import UserWallCommands from './userWallCommands';
+
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -41,7 +45,9 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerTreeDataProvider('postTweets', new PostTweetProvider(client));
 	new TimeLine(context, client);
 	new TimelineCommands(client);
-
+	
+	new UserWall(context, client);
+	new UserWallCommands(client);
 }
 
 // this method is called when your extension is deactivated

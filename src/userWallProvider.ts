@@ -7,7 +7,6 @@ const download = require('image-downloader');
 
 import TweetNode from './TweetNode';
 
-
 export class TweetModel 
 {
     private nodes: Map<string, TweetNode> = new Map<string, TweetNode>();
@@ -21,7 +20,7 @@ export class TweetModel
     getRawTweets(): Promise<Twitter.ResponseData> {
 
         return new Promise((callback, error) => {
-            this.client.get('statuses/home_timeline.json?count=40&exclude_replies=true', function(err, tweets, response) {
+            this.client.get('statuses/user_timeline.json?count=40?exclude_replies', function(err, tweets, response) {
                 if (err){
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: '+err.message);
                     error('Error Unable to get tweets: ' + err.message);
@@ -89,7 +88,7 @@ export class TweetModel
         };
             let out: TweetNode[] = [];
             for( let i = 0; i < rawTweets.length; i++) {
-
+               
                 let mentions: string[] = [];
                 if (rawTweets[i].entities.user_mentions) {
 
@@ -98,6 +97,7 @@ export class TweetModel
                         mentions.push(rawTweets[i].entities.user_mentions[j].screen_name);
                     }
                 }
+
                 out.push({
                     label: rawTweets[i].user.name,
                     username: '@'+rawTweets[i].user.screen_name,
@@ -109,7 +109,7 @@ export class TweetModel
                     user_pics: rawTweets[i].user.profile_image_url,
                     isRetweet: (rawTweets[i].retweeted_status) ? true : false,
                     user_mentions: mentions,
-                    content: `${(rawTweets[i].text.length >= 100) ? limitPerLine(rawTweets[i].text, 3) :  rawTweets[i].text}  \n❤️ (${rawTweets[i].favorite_count})    🔁 (${rawTweets[i].retweet_count})`
+                    content: `${(rawTweets[i].text.length >= 100) ? limitPerLine(rawTweets[i].text, 3) :  rawTweets[i].text}  \n❤️ (${ (rawTweets[i].retweeted_status)  ? rawTweets[i].retweeted_status.favorite_count : rawTweets[i].favorite_count})    🔁 (${ (rawTweets[i].retweeted_status)  ? rawTweets[i].retweeted_status.retweet_count : rawTweets[i].retweet_count})`
                 });
                 this.getProfilePicture('@'+rawTweets[i].user.screen_name, rawTweets[i].user.profile_image_url)
                 
@@ -165,7 +165,7 @@ export class TweetModel
         return new Promise((callback, error) => {
             this.getRawTweets().then(rawTweets => {
                 // raw tweets is now gotten... lets us manipuate it :) to look like below...
-                console.log(rawTweets[12]);
+                console.log(rawTweets[2]);
                 let tweets = this.prepaireTweets(rawTweets);
                 callback(tweets);
             }).catch(err => {
@@ -205,7 +205,7 @@ export class TweetModel
 }
 
 
-export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
+export class UserWallProvider implements vscode.TreeDataProvider<TweetNode> {
    
     private _onDidChangeTreeData: vscode.EventEmitter<any> = new vscode.EventEmitter<any>();
     readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData.event;
@@ -248,16 +248,16 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
             favorited: element.favorited,
             retweeted: element.retweeted,
             user_pics: element.user_pics,
-            isRetweet: element.isRetweet,
-            user_mentions: element.user_mentions
+            user_mentions: element.user_mentions,
+            isRetweet: element.isRetweet
         };
         } else
         {
             return {label: '',  time: '', username: element.username, type: 'body', content: element.content, id: element.id,
             favorited: element.favorited,
             retweeted: element.retweeted,
-            isRetweet: element.isRetweet,
             user_mentions: element.user_mentions,
+            isRetweet: element.isRetweet,
             user_pics: '',};
         }
     }
@@ -265,17 +265,15 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
 
 }
 
-export class TimeLine {
-    private timeline: vscode.TreeView<TweetNode>;
+export class UserWall {
+    private userWall: vscode.TreeView<TweetNode>;
 
     constructor(context: vscode.ExtensionContext, client: Twitter) {
         const tweetModel = new TweetModel(client);
-		const treeDataProvider = new TimelineProvider(tweetModel);
-        this.timeline = vscode.window.createTreeView('twitterTimeline', { treeDataProvider });
+		const treeDataProvider = new UserWallProvider(tweetModel);
+        this.userWall = vscode.window.createTreeView('userWall', { treeDataProvider });
         // register commands...
-        // 1. open tweet in browser ...
-        vscode.commands.registerCommand('extension.tweetInBrowser', (screen_name, tweet_id) => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.twitter.com/${screen_name}/status/${tweet_id}`)));
-        vscode.commands.registerCommand('twitterTimeline.refresh', (item?: any) => {
+        vscode.commands.registerCommand('userWall.refresh', (item?: any) => {
                 if (item) {
                     treeDataProvider.refresh(item);
                 } else

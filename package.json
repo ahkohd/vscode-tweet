@@ -76,6 +76,54 @@
 				}
 			},
 			{
+				"command": "userWall.refresh",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "userWall.like",
+				"title": "Like",
+				"icon": {
+					"light": "resources/light/favourite.svg",
+					"dark": "resources/dark/favourite.svg"
+				}
+			},
+			{
+				"command": "userWall.unlike",
+				"title": "Like",
+				"icon": {
+					"light": "resources/light/faved.svg",
+					"dark": "resources/dark/faved.svg"
+				}
+			},
+			{
+				"command": "userWall.retweet",
+				"title": "Retweet",
+				"icon": {
+					"light": "resources/light/retweet.svg",
+					"dark": "resources/dark/retweet.svg"
+				}
+			},
+			{
+				"command": "userWall.unretweet",
+				"title": "Un-Retweet",
+				"icon": {
+					"light": "resources/light/unretweet.svg",
+					"dark": "resources/dark/unretweet.svg"
+				}
+			},
+			{
+				"command": "userWall.reply",
+				"title": "Reply",
+				"icon": {
+					"light": "resources/light/comment.svg",
+					"dark": "resources/dark/comment.svg"
+				}
+			},
+			{
 				"command": "vscode-tweet.showMsg",
 				"title": "vscode-tweet"
 			}
@@ -97,16 +145,16 @@
 					"name": "Recent Tweets"
 				},
 				{
-					"id": "usersWall",
-					"name": "Timeline"
+					"id": "userWall",
+					"name": "ACTIVITIES"
 				},
 				{
-					"id": "trendingTweets",
-					"name": "#Trending"
+					"id": "trending",
+					"name": "#TRENDING"
 				},
 				{
-					"id": "searchTweets",
-					"name": "Search"
+					"id": "vscodeTweetSettings",
+					"name": "SETTINGS"
 				}
 			]
 		},
@@ -115,6 +163,11 @@
 					"command": "twitterTimeline.refresh",
 					"group": "navigation",
 					"when": "view == twitterTimeline"
+				},
+				{
+					"command": "userWall.refresh",
+					"group": "navigation",
+					"when": "view == userWall"
 				},
 				{
 					"command": "postTweets.tweet",
@@ -180,6 +233,66 @@
 				{
 					"command": "twitterTimeline.unlike",
 					"when": "view == twitterTimeline && viewItem == tweet-head-fav-r",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.retweet",
+					"when": "view == userWall &&  viewItem == tweet-head-fav",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.retweet",
+					"when": "view == userWall && viewItem == tweet-head-nofav",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.unretweet",
+					"when": "view == userWall && viewItem == tweet-head-nofav-r",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.unretweet",
+					"when": "view == userWall && viewItem == tweet-head-fav-r",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.reply",
+					"when": "view == userWall && viewItem == tweet-head-fav",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.reply",
+					"when": "view == userWall && viewItem == tweet-head-nofav",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.reply",
+					"when": "view == userWall && viewItem == tweet-head-nofav-r",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.reply",
+					"when": "view == userWall && viewItem == tweet-head-fav-r",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.like",
+					"when": "view == userWall && viewItem == tweet-head-nofav",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.like",
+					"when": "view == userWall && viewItem == tweet-head-nofav-r",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.unlike",
+					"when": "view == userWall && viewItem == tweet-head-fav",
+					"group": "inline"
+				},
+				{
+					"command": "userWall.unlike",
+					"when": "view == userWall && viewItem == tweet-head-fav-r",
 					"group": "inline"
 				}
 			]

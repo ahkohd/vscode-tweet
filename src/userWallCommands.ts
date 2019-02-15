@@ -1,17 +1,15 @@
 import * as vscode from 'vscode';
 import * as Twitter from 'twitter';
-
 import  TweetNode  from './TweetNode';
 
-
-export default class TimelineCommands
+export default class UserWallCommands
 {
   constructor(client: Twitter)
   {
 
 
     // Register retweet...
-    vscode.commands.registerCommand('twitterTimeline.retweet', (node: any | TweetNode) => {
+    vscode.commands.registerCommand('userWall.retweet', (node: any | TweetNode) => {
             vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Retweeting...');
             client.post('statuses/retweet', {id: node.id}, (error, tweet, resonse) => {
 
@@ -36,7 +34,7 @@ export default class TimelineCommands
                     updateContent = `${chunck[0]}🔁 (${count+1})`;
                     node.content = updateContent;
 
-                    vscode.commands.executeCommand('twitterTimeline.refresh', node);
+                    vscode.commands.executeCommand('userWall.refresh', node);
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Retweeted!');
                 }
 
@@ -45,7 +43,7 @@ export default class TimelineCommands
 
 
      // Register unretweet...
-     vscode.commands.registerCommand('twitterTimeline.unretweet', (node: any | TweetNode) => {
+     vscode.commands.registerCommand('userWall.unretweet', (node: any | TweetNode) => {
         vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Un-Retweeting...');
         client.post('statuses/unretweet', {id: node.id}, (error, tweet, resonse) => {
 
@@ -69,7 +67,7 @@ export default class TimelineCommands
                  node.content = updateContent;
 
 
-                vscode.commands.executeCommand('twitterTimeline.refresh', node);
+                vscode.commands.executeCommand('userWall.refresh', node);
                 vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Un-Retweeted!');
             }
 
@@ -77,7 +75,7 @@ export default class TimelineCommands
     });
 
     // reply timeline tweets...
-    vscode.commands.registerCommand('twitterTimeline.reply', (node: TweetNode) => {
+    vscode.commands.registerCommand('userWall.reply', (node: TweetNode) => {
         
         vscode.window.showInputBox({placeHolder: 'Tweet Your Reply', ignoreFocusOut: true}).then((value)=>{
 
@@ -97,7 +95,8 @@ export default class TimelineCommands
             } else {
                 status = `${node.username} ${value}`;
             }
-            client.post('statuses/update.json?auto_populate_reply_metadata=true', {status: status, in_reply_to_status_id: node.id},  function(error, tweet, response) {
+
+            client.post('statuses/update', {status: status, in_reply_to_status_id: node.id},  function(error, tweet, response) {
                 if (error) {
                     
                         vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', 'Unable to reply Tweet. Error: '+error.message);
@@ -115,7 +114,7 @@ export default class TimelineCommands
 
 
     // Register retweet...
-    vscode.commands.registerCommand('twitterTimeline.like', (node: TweetNode) => {
+    vscode.commands.registerCommand('userWall.like', (node: TweetNode) => {
         vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Faving Tweet...');
             client.post('favorites/create', {id: node.id}, (error, tweet, resonse) => {
 
@@ -135,7 +134,7 @@ export default class TimelineCommands
                     node.content = updateContent;
 
 
-                    vscode.commands.executeCommand('twitterTimeline.refresh', node);
+                    vscode.commands.executeCommand('userWall.refresh', node);
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Tweet Favourited!');
                 }
 
@@ -143,7 +142,7 @@ export default class TimelineCommands
     });
 
      // Register retweet...
-     vscode.commands.registerCommand('twitterTimeline.unlike', (node: TweetNode) => {
+     vscode.commands.registerCommand('userWall.unlike', (node: TweetNode) => {
         vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Unfaving Tweet...');
         client.post('favorites/destroy', {id: node.id}, (error, tweet, resonse) => {
 
@@ -164,7 +163,7 @@ export default class TimelineCommands
                   node.content = updateContent;
 
 
-                vscode.commands.executeCommand('twitterTimeline.refresh', node);
+                vscode.commands.executeCommand('userWall.refresh', node);
                 vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Tweet Un-favorited!');
             }
 
