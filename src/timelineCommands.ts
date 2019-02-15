@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as Twitter from 'twitter';
 import { TweetNode } from './timelineProvider';
 
-export default class CommonCommands
+export default class TimelineCommands
 {
   constructor(client: Twitter)
   {
@@ -58,6 +58,25 @@ export default class CommonCommands
     // reply timeline tweets...
     vscode.commands.registerCommand('twitterTimeline.reply', (node: TweetNode) => {
         
+        vscode.window.showInputBox({placeHolder: 'Tweet Your Reply', ignoreFocusOut: true}).then((value)=>{
+
+            if (value  !== undefined) {
+            // Reply post
+            vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Replying Tweet...');
+            client.post('statuses/update', {status: `@${node.username} ${value}`, in_reply_to_status_id: node.id},  function(error, tweet, response) {
+                if (error) {
+                    
+                        vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', 'Unable to reply Tweet. Error: '+error.message);
+                } else
+                {
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Tweet Replied!');
+                }
+            });
+                
+            } else {
+                vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' You have to enter a reply!');
+            }            
+        });
     });
 
 
