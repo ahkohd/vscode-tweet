@@ -190,7 +190,7 @@ export class TweetModel
     }
     
 
-    public getChildren(node: TweetNode): Thenable<TweetNode[]> {
+    public getChildren(node: any): Thenable<TweetNode[]> {
         let content: string = node.content;
         let newLines: string[] = content.split('\n');
         let childs: TweetNode[] = [];
@@ -216,10 +216,16 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
     
     constructor(private readonly model: TweetModel) { }
 
-    public refresh(): any {
-		this._onDidChangeTreeData.fire();
+    public refresh(item?: any): any {
+        if (item) {
+            // console.log(item);
+			this._onDidChangeTreeData.fire(item);
+		} else {
+			this._onDidChangeTreeData.fire();
+		}
     }
     
+
     public getTreeItem(element: TweetNode): vscode.TreeItem {
 
         // represents both the tweet head and body
@@ -269,6 +275,14 @@ export class TimeLine {
         // register commands...
         // 1. open tweet in browser ...
         vscode.commands.registerCommand('extension.tweetInBrowser', (screen_name, tweet_id) => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.twitter.com/${screen_name}/status/${tweet_id}`)));
-        vscode.commands.registerCommand('twitterTimeline.refresh', () => treeDataProvider.refresh());
-	}
+        vscode.commands.registerCommand('twitterTimeline.refresh', (item?: any) => {
+                if (item) {
+                    treeDataProvider.refresh(item);
+                } else
+                {
+                    treeDataProvider.refresh();
+                }
+        });
+    }
+
 }

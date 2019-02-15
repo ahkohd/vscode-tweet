@@ -74,8 +74,8 @@ export class Item extends vscode.TreeItem {
 
 
 	iconPath = {
-		light: path.join(__filename, '..', '..', 'resources',  'tweet.svg'),
-		dark: path.join(__filename, '..', '..', 'resources',  'tweet.svg')
+		light: path.join(__filename, '..', '..', 'resources',  'entry2.svg'),
+		dark: path.join(__filename, '..', '..', 'resources',  'entry2.svg')
 	};
 
 	contextValue = 'tweet';

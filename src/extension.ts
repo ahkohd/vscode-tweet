@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import * as Twitter from 'twitter';
 import { TimeLine } from './timelineProvider';
 import { PostTweetProvider} from './postTweetProvider';
+import CommonCommands  from './commonCommands';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -39,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 	  // Register providers
 	vscode.window.registerTreeDataProvider('postTweets', new PostTweetProvider(client));
 	new TimeLine(context, client);
+	new CommonCommands(client);
 
 }
 

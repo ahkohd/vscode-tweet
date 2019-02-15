@@ -15,8 +15,7 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
-			{
+		"commands": [{
 				"command": "extension.vscodeTweet",
 				"title": "Twitter"
 			},
@@ -74,17 +73,14 @@
 			}
 		],
 		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "vscodeTweet",
-					"title": "Vscode Tweet",
-					"icon": "resources/icon.svg"
-				}
-			]
+			"activitybar": [{
+				"id": "vscodeTweet",
+				"title": "Vscode Tweet",
+				"icon": "resources/icon.svg"
+			}]
 		},
 		"views": {
-			"vscodeTweet": [
-				{
+			"vscodeTweet": [{
 					"id": "postTweets",
 					"name": "What's happening?"
 				},
@@ -93,14 +89,21 @@
 					"name": "Recent Tweets"
 				},
 				{
+					"id": "usersWall",
+					"name": "Timeline"
+				},
+				{
+					"id": "trendingTweets",
+					"name": "#Trending"
+				},
+				{
 					"id": "searchTweets",
 					"name": "Search"
 				}
 			]
 		},
 		"menus": {
-			"view/title": [
-				{
+			"view/title": [{
 					"command": "twitterTimeline.refresh",
 					"group": "navigation",
 					"when": "view == twitterTimeline"
@@ -111,10 +114,9 @@
 					"when": "view == postTweets"
 				}
 			],
-			"view/item/context": [
-				{
+			"view/item/context": [{
 					"command": "twitterTimeline.retweet",
-					"when": "view == twitterTimeline && viewItem == tweet-head-fav",
+					"when": "view == twitterTimeline &&  viewItem == tweet-head-fav",
 					"group": "inline"
 				},
 				{
