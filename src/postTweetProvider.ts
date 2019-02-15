@@ -20,12 +20,8 @@ export  class PostTweetProvider implements vscode.TreeDataProvider<Item> {
                         vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Posting Tweet...');
                         client.post('statuses/update', {status: value},  function(error, tweet, response) {
                             if (error) {
-                                try {
-                                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', 'Unable to post Tweet. Error: '+error[0].message);
-                                } catch(e)
-                                {
-                                    throw "Unable to post tweet and notify user about it";
-                                }
+                                
+                                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', 'Unable to post Tweet. Error: '+error.message);
                             } else
                             {
                                 vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Tweet Posted!');

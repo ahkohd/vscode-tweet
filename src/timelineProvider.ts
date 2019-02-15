@@ -33,18 +33,13 @@ export class TweetModel
         return new Promise((callback, error) => {
             this.client.get('statuses/home_timeline.json?count=40?exclude_replies', function(err, tweets, response) {
                 if (err){
-                    // let's return sample tweets...
-            
-                    try {
-                        vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: ' + err[0].message);
-                    } catch(e) {
-                        throw "Error occured while fetching tweets and was unable to alert user";
-                    
-                    }
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: '+err.message);
                     error('Error Unable to get tweets: ' + err.message);
-                } 
-                vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Loading Tweets...');
-                callback(tweets);
+                } else {
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Loading Tweets...');
+                    callback(tweets);
+                }
+                
             });
         });  
     }
@@ -169,9 +164,7 @@ export class TweetModel
         return new Promise((callback, error) => {
             this.getRawTweets().then(rawTweets => {
                 // raw tweets is now gotten... lets us manipuate it :) to look like below...
-                console.log(rawTweets[4]);
-
-
+                console.log(rawTweets[2]);
                 let tweets = this.prepaireTweets(rawTweets);
                 callback(tweets);
             }).catch(err => {
@@ -237,7 +230,7 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
             // iconPath: (element.type === 'head') ? { light: path.join(__filename, '..', '..', 'resources',  'icon.svg'), dark: path.join(__filename, '..', '..', 'resources',  'entry.svg')} : undefined,
             collapsibleState: (element.type === 'head') ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None,
             command: (element.type === 'head') ? undefined : {command: 'extension.tweetInBrowser',title: '',arguments: [(element.username.split('@'))[1], element.id]},
-        	contextValue: (element.type === 'head') ? (element.favorited) ? 'tweet-head-fav' : 'tweet-head-nofav' : 'tweet-body'
+        	contextValue: (element.type === 'head') ? (element.favorited) ? (element.retweeted) ? 'tweet-head-fav-r': 'tweet-head-fav'  : (element.retweeted) ? 'tweet-head-nofav-r' : 'tweet-head-nofav' : 'tweet-body'
         };
     }
     

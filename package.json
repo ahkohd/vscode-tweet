@@ -60,6 +60,14 @@
 				}
 			},
 			{
+				"command": "twitterTimeline.unretweet",
+				"title": "Un-Retweet",
+				"icon": {
+					"light": "resources/light/unretweet.svg",
+					"dark": "resources/dark/unretweet.svg"
+				}
+			},
+			{
 				"command": "twitterTimeline.reply",
 				"title": "Reply",
 				"icon": {
@@ -125,6 +133,16 @@
 					"group": "inline"
 				},
 				{
+					"command": "twitterTimeline.unretweet",
+					"when": "view == twitterTimeline && viewItem == tweet-head-nofav-r",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.unretweet",
+					"when": "view == twitterTimeline && viewItem == tweet-head-fav-r",
+					"group": "inline"
+				},
+				{
 					"command": "twitterTimeline.reply",
 					"when": "view == twitterTimeline && viewItem == tweet-head-fav",
 					"group": "inline"
@@ -132,6 +150,16 @@
 				{
 					"command": "twitterTimeline.reply",
 					"when": "view == twitterTimeline && viewItem == tweet-head-nofav",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.reply",
+					"when": "view == twitterTimeline && viewItem == tweet-head-nofav-r",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.reply",
+					"when": "view == twitterTimeline && viewItem == tweet-head-fav-r",
 					"group": "inline"
 				},
 				{
@@ -140,8 +168,18 @@
 					"group": "inline"
 				},
 				{
+					"command": "twitterTimeline.like",
+					"when": "view == twitterTimeline && viewItem == tweet-head-nofav-r",
+					"group": "inline"
+				},
+				{
 					"command": "twitterTimeline.unlike",
 					"when": "view == twitterTimeline && viewItem == tweet-head-fav",
+					"group": "inline"
+				},
+				{
+					"command": "twitterTimeline.unlike",
+					"when": "view == twitterTimeline && viewItem == tweet-head-fav-r",
 					"group": "inline"
 				}
 			]
