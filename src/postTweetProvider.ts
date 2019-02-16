@@ -40,6 +40,12 @@ export  class PostTweetProvider implements vscode.TreeDataProvider<Item> {
             vscode.commands.executeCommand('vscode.open', vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://twitter.com/${username}`)));
         });
 
+
+        // refesh command
+        vscode.commands.registerCommand('postTweets.refresh', () => {
+            this.refresh();
+        });
+
     }
 
     getRawUserInfo(): Promise<Twitter.ResponseData> {
@@ -59,7 +65,7 @@ export  class PostTweetProvider implements vscode.TreeDataProvider<Item> {
 
 
     fetchProfile(): Thenable<any> {
-        vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', 'Fetching...');
+        vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', 'Fetching Info...');
         return new Promise((callback, error) => {
             this.getRawUserInfo().then(profile => {
                   

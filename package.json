@@ -38,6 +38,14 @@
 				}
 			},
 			{
+				"command": "postTweets.refresh",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
 				"command": "trending.refresh",
 				"title": "Refresh",
 				"icon": {
@@ -186,6 +194,11 @@
 				},
 				{
 					"command": "postTweets.tweet",
+					"group": "navigation",
+					"when": "view == postTweets"
+				},
+				{
+					"command": "postTweets.refresh",
 					"group": "navigation",
 					"when": "view == postTweets"
 				}
