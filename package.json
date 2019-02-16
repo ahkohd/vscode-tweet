@@ -17,7 +17,38 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [{
+
+
+		"configuration": {
+			"type": "object",
+			"title": "VSCode Tweet Prefences",
+			"properties": {
+				"vscodeTweet.numberOfRecentTweets": {
+					"type": "number",
+					"default": 40,
+					"description": "Number of Recent Tweets to fetch."
+				},
+				"vscodeTweet.numberOfActivitiesTweets": {
+					"type": "number",
+					"default": 40,
+					"description": "Number of Activities Tweets to fetch."
+				},
+				"vscodeTweet.reloadTweetsEvery": {
+					"type": "number",
+					"default": 15000,
+					"description": "Refresh tweets every what seconds?"
+				},
+				"vscodeTweet.trendingTweetsLocation": {
+					"type": "number",
+					"default": 1,
+					"description": "The Yahoo! Where On Earth ID of the location to return trending information for. Global information is available by using 1 as the WOEID."
+				}
+			}			
+		},
+
+
+		"commands": [
+			{
 				"command": "extension.vscodeTweet",
 				"title": "Twitter"
 			},
@@ -147,14 +178,17 @@
 			}
 		],
 		"viewsContainers": {
-			"activitybar": [{
-				"id": "vscodeTweet",
-				"title": "Vscode Tweet",
-				"icon": "resources/icon.svg"
-			}]
+			"activitybar": [
+				{
+					"id": "vscodeTweet",
+					"title": "Vscode Tweet",
+					"icon": "resources/icon.svg"
+				}
+			]
 		},
 		"views": {
-			"vscodeTweet": [{
+			"vscodeTweet": [
+				{
 					"id": "postTweets",
 					"name": "What's happening?"
 				},
@@ -177,7 +211,8 @@
 			]
 		},
 		"menus": {
-			"view/title": [{
+			"view/title": [
+				{
 					"command": "twitterTimeline.refresh",
 					"group": "navigation",
 					"when": "view == twitterTimeline"
@@ -203,7 +238,8 @@
 					"when": "view == postTweets"
 				}
 			],
-			"view/item/context": [{
+			"view/item/context": [
+				{
 					"command": "twitterTimeline.retweet",
 					"when": "view == twitterTimeline &&  viewItem == tweet-head-fav",
 					"group": "inline"
