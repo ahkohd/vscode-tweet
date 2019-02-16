@@ -10,6 +10,8 @@ import { UserWall } from './userWallProvider';
 import UserWallCommands from './userWallCommands';
 
 
+import { TrendingTweetsProvider } from './TrendingTweetsProvider';
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -43,11 +45,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 	  // Register providers
 	vscode.window.registerTreeDataProvider('postTweets', new PostTweetProvider(client));
+
 	new TimeLine(context, client);
-	new TimelineCommands(client);
-	
 	new UserWall(context, client);
+
+	vscode.window.registerTreeDataProvider('trending', new TrendingTweetsProvider(client));
+
+	new TimelineCommands(client);
 	new UserWallCommands(client);
+
 }
 
 // this method is called when your extension is deactivated

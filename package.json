@@ -11,7 +11,9 @@
 	],
 	"activationEvents": [
 		"onView:twitterTimeline",
-		"onView:postTweets"
+		"onView:postTweets",
+		"onView:userWall",
+		"onView:trending"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -29,6 +31,14 @@
 			},
 			{
 				"command": "twitterTimeline.refresh",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "trending.refresh",
 				"title": "Refresh",
 				"icon": {
 					"light": "resources/light/refresh.svg",
@@ -168,6 +178,11 @@
 					"command": "userWall.refresh",
 					"group": "navigation",
 					"when": "view == userWall"
+				},
+				{
+					"command": "trending.refresh",
+					"group": "navigation",
+					"when": "view == trending"
 				},
 				{
 					"command": "postTweets.tweet",

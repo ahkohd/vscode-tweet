@@ -165,7 +165,7 @@ export class TweetModel
         return new Promise((callback, error) => {
             this.getRawTweets().then(rawTweets => {
                 // raw tweets is now gotten... lets us manipuate it :) to look like below...
-                console.log(rawTweets[2]);
+                // console.log(rawTweets[2]);
                 let tweets = this.prepaireTweets(rawTweets);
                 callback(tweets);
             }).catch(err => {
