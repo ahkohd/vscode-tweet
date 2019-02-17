@@ -13,7 +13,8 @@
 		"onView:twitterTimeline",
 		"onView:postTweets",
 		"onView:userWall",
-		"onView:trending"
+		"onView:trending",
+		"onView:vscodeTweetSettings"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

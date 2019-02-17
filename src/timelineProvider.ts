@@ -23,7 +23,6 @@ export class TweetModel
         return new Promise((callback, error) => {
 
         	const getNumbersOfRecentTweetsToFetch = vscode.workspace.getConfiguration().get('vscodeTweet.numberOfActivitiesTweets');
-                console.log('curr', getNumbersOfRecentTweetsToFetch);
             this.client.get(`statuses/home_timeline.json?count=${getNumbersOfRecentTweetsToFetch}&exclude_replies=true`, function(err, tweets, response) {
                 if (err){
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: '+err.message);

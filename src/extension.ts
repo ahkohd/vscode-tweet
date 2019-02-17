@@ -9,6 +9,7 @@ import TimelineCommands from './timelineCommands';
 import { UserWall } from './userWallProvider';
 import UserWallCommands from './userWallCommands';
 
+import SettingsProvider from './SettingsProvider';
 
 
 import { TrendingTweetsProvider } from './TrendingTweetsProvider';
@@ -52,6 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
 	new UserWall(context, client);
 
 	vscode.window.registerTreeDataProvider('trending', new TrendingTweetsProvider(client));
+	vscode.window.registerTreeDataProvider('vscodeTweetSettings', new SettingsProvider());
+
 
 	new TimelineCommands(client);
 	new UserWallCommands(client);
