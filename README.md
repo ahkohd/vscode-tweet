@@ -1,89 +1,41 @@
-# vscode-tweet README
-
-This is the README for your extension "vscode-tweet". After writing up a brief description, we recommend including the following sections.
+# VSCODE TWEET
+A Twitter client one click away at your VSCODE activity bar.
 
 ## Features
+- Post new tweets (Update status).
+- View profile details
+- View your timeline.
+- Favourite, Un-favorite tweets.
+- Reply to tweets and Retweets.
+- View your activities
+- Retweet and Un-retweet.
+- View trending hastags.
+- Automatically checks for new tweets.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+# Setting Up
+## 1. Install VSCODE TWEET
+Install vscode tweet extension from visual studio code marketplace. [Install VSCODE TWEET](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 
-For example if there is an image subfolder under your extension project workspace:
+## 2. Create A Twitter App
+In other to use VSCODE TWEET, you need to create a twitter at the twitter developer console. [http://developer.twitter.com](http://developer.twitter.com)
 
-\!\[feature X\]\(images/feature-x.png\)
+### Note:
+    1. Set the Twitter app permission to read and write.
+    2. You can disable oAuth authenticaion, it is of no need for this application
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## 3. Get Twitter App API Credentials
+Under the **Keys and Tokens** section of your Twitter app at the twitter developer console. Note / Copy down the following
+- Consumer API Key
+- Consumer API Secret
+- Access Token Key
+- Access Token Secret
 
-## Requirements
+## 4. Activate VSCODE TWEET and Setup API Credentials
+Upon activation, VSCODE TWEET prompts you to setup your Twitter's API credentials.
+Once the **VSCODE TWEET** settings UI is opened, Search for `tweet` or goto to the extension section at the side and locate **VSCODE TWEET**. You should now see **VSCODE TWEET** extension settings. Under the Twitter API credentials field, fill in the credentials you got earlier correctly into the appropraite fields.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### NOTE
+    After setting up credentials, You need to reload the window or VSCODE TWEET for the API Credentials to work.
+A way to easily reload the window is to clikc the Twitter Icon at the side activity bar, under  **VSCODE TWEET** Settings section, click on `Reload VSCODE TWEET` option in the list.
 
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
-
-final tweet render
-```js
-                // let tweets = [
-                //     {
-                //         label: 'Victor Aremu',
-                //         username: '@Ahkohd',
-                //         time: '2 min ago',
-                //         content: 'lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)',
-                //         id: '1094374464534573056',
-                //         type: 'head',
-                
-                //     },
-                //     {
-                //         label: 'Victor Aremu',
-                //         username: '@Ahkohd',
-                //         time: '2 min ago',
-                //         content: 'lorem lorem lorem lorem lorem lorem lorem\n lorem lorem lorem lorem lorem lorem \n💬 (15)    ❤️ (10)    🔁 (2)  ',
-                //         id: '1091810321914826752',
-                //         type: 'head',
-            
-                //     }
-                // ];
-```
+## 5. And We Are Done
