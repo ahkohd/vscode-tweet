@@ -127,7 +127,6 @@ export class TweetModel
         let pics_exists = this.pathExists(path.join(__filename, '..', '..', 'resources', 'profilePictures', username+'.jpg'));
 
         if (!pics_exists) {
-            // console.log(username, "pic does not exits");
             const options = {
                 url: pics_url,
                 dest: path.join(__filename, '..', '..', 'resources', 'profilePictures', username+'.jpg')                
@@ -136,17 +135,11 @@ export class TweetModel
               async function downloadIMG() {
                 try {
                   const { filename, image } = await download.image(options);
-                //   console.log(filename); 
-                } catch (e) {
-                //   console.error(e);
-                }
+                } catch (e) {}
               }
                
               downloadIMG();
 
-        } else
-        {
-            // console.log(username, "pic does  exits");
         }
     }
 
@@ -216,7 +209,6 @@ export class UserWallProvider implements vscode.TreeDataProvider<TweetNode> {
 
     public refresh(item?: any): any {
         if (item) {
-            // console.log(item);
 			this._onDidChangeTreeData.fire(item);
 		} else {
 			this._onDidChangeTreeData.fire();

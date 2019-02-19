@@ -1,5 +1,3 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as Twitter from 'twitter';
 import { TimeLine } from './timelineProvider';
@@ -14,13 +12,7 @@ import SettingsProvider from './SettingsProvider';
 
 import { TrendingTweetsProvider } from './TrendingTweetsProvider';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-
-
-
 	// Register command to show notifications or vscode tweets
 	let disposable = vscode.commands.registerCommand('vscode-tweet.showMsg', (type, msg)  => {
 		if (type === 'err') {
@@ -30,20 +22,42 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showInformationMessage('VSCODE TWEET / '+msg);
 		}
 	});
-
-
-
-
-	
-
 	context.subscriptions.push(disposable);
 
-	// Create an Instance of the Twitter CLient 
+
+
+		
+	let checkIfKeyIsSet  = (key: string | undefined) => { return (key !== undefined && (<any>key) !== '' ); };
+	const credentialArray: Array<string | undefined> = [
+		vscode.workspace.getConfiguration().get('vscodeTweet.consumer_key'),
+		vscode.workspace.getConfiguration().get('vscodeTweet.consumer_secret'),
+		vscode.workspace.getConfiguration().get('vscodeTweet.access_token_key'),
+		vscode.workspace.getConfiguration().get('vscodeTweet.access_token_secret'),
+	];
+
+	if (!credentialArray.every(checkIfKeyIsSet)) {
+		// credential not fully set
+		// show error modal tell users to set credentials..
+		vscode.window.showErrorMessage('VSCODE TWEET / You have not setup your Twitter API credentials. Set it up and then reload vscode tweet.', {modal: true}, {title: 'Setup Credentials'}).then((value) => {
+			if (value !== undefined) {
+					vscode.commands.executeCommand('workbench.action.openGlobalSettings');
+			} else 
+			{
+				vscode.window.showErrorMessage('You need to set up your Twitter API credentials, then reload VSCODE TWEET!');
+			}
+		});
+	}
+	// initialize vscode-tweet
+	execute(credentialArray, context);
+}
+
+
+function  execute(credentialArray: Array<string | undefined>, context: any) {
 	let client = new Twitter({
-		consumer_key: 'VEkChSwsTXrFf5NR2JsQdsxUL',
-		consumer_secret: 'dvYl6ajFJx5VI77pkUBIROzlxKDrdRifacFEtFVmLewgCTauwD',
-		access_token_key: '2212463825-4YLj68HAVOk0zXDkYEVsZus04wt5yYuj5D0qMgz',
-		access_token_secret: '6GnTRFBjKt2IdLV0a4Lqv7wzHOxSfcTdVMMgJFT3dfxOX'
+		consumer_key: (<string>credentialArray[0]),
+		consumer_secret: (<string>credentialArray[1]),
+		access_token_key: (<string>credentialArray[2]),
+		access_token_secret: (<string>credentialArray[3])
 	  });
 
 	  // Register providers
@@ -54,7 +68,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.window.registerTreeDataProvider('trending', new TrendingTweetsProvider(client));
 	vscode.window.registerTreeDataProvider('vscodeTweetSettings', new SettingsProvider());
-
 
 	new TimelineCommands(client);
 	new UserWallCommands(client);

@@ -18,16 +18,30 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-
-
 		"configuration": {
 			"type": "object",
-			"title": "VSCode Tweet Prefences",
+			"title": "VSCode Tweet Settings",
 			"properties": {
 				"vscodeTweet.numberOfRecentTweets": {
 					"type": "number",
 					"default": 40,
 					"description": "Number of Recent Tweets to fetch."
+				},
+				"vscodeTweet.consumer_key": {
+						"type": "string",
+						"description": "Your Twitter app customer key"
+				},
+				"vscodeTweet.consumer_secret": {
+					"type": "string",
+					"description": "Your Twitter app customer secret"
+				},
+				"vscodeTweet.access_token_key": {
+					"type": "string",
+					"description": "Your Twitter app access token key"
+				},
+				"vscodeTweet.access_token_secret": {
+					"type": "string",
+					"description": "Your Twitter app access token secret"
 				},
 				"vscodeTweet.numberOfActivitiesTweets": {
 					"type": "number",
@@ -44,10 +58,8 @@
 					"default": 1,
 					"description": "The Yahoo! Where On Earth ID of the location to return trending information for. Global information is available by using 1 as the WOEID."
 				}
-			}			
+			}
 		},
-
-
 		"commands": [
 			{
 				"command": "extension.vscodeTweet",
@@ -379,6 +391,7 @@
 	},
 	"dependencies": {
 		"@types/twitter": "^1.7.0",
+		"get-twitter-bearer-token": "^1.0.0",
 		"image-downloader": "^3.4.2",
 		"node-time-ago": "^1.0.0",
 		"twitter": "^1.7.1"

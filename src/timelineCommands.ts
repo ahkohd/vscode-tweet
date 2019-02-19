@@ -159,7 +159,6 @@ export default class TimelineCommands
                   let chunck1 = (chunck[1].split('🔁'))[0];
                   // replace all none number chacter with nothing and the convert to number...
                   let count = Number.parseInt((<any>chunck1).match(/\d+/)[0]);
-                  console.log('fav', count);
                   updateContent = `${chunck[0]}❤️ (${count-1})    🔁${(updateContent.split('🔁'))[1]}`;
                   node.content = updateContent;
 

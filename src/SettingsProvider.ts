@@ -12,15 +12,14 @@ export default class SettingsProvider implements vscode.TreeDataProvider<Item> {
 
         /// when refresh command is invoked...
         vscode.commands.registerCommand('vscodeTweet.clearCache', () => {
-              this.rmDir(path.join(__filename, '..', '..', 'resources', 'profilePictures'), false);
+                vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Clearing Tweets profile picture cache...');
+                this.rmDir(path.join(__filename, '..', '..', 'resources', 'profilePictures'), false);
         });
 
         // when open with hash tag is invoked...
         vscode.commands.registerCommand('settings.openVScodeTweetSettings', () => {
-            // vscode.window.
-
+            vscode.commands.executeCommand('workbench.action.openGlobalSettings');
         });
-
 
         vscode.commands.registerCommand('vscodeTweet.about', () => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://github.com/ahkohd/vscode-tweet`)));
 
@@ -28,22 +27,32 @@ export default class SettingsProvider implements vscode.TreeDataProvider<Item> {
 
 
     rmDir(dirPath: string,  removeSelf?: boolean )  {
-        try { 
-            let files = fs.readdirSync(dirPath);
-            if (files.length > 0) {
-                for (let i = 0; i < files.length; i++) {
+                if (removeSelf === undefined) {
+                    removeSelf = true;
+                }
+                try {
+                     var files = fs.readdirSync(dirPath);
+                } catch(e) {
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to clear tweets profile picture cache...');
+                    return;
+                }
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
                     let filePath = dirPath + '/' + files[i];
                     if (fs.statSync(filePath).isFile()) {
-                      fs.unlinkSync(filePath);
+                        fs.unlinkSync(filePath);
                     } else {
-                      this.rmDir(filePath);
+                        this.rmDir(filePath);
                     }
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', 'Successfully cleared cached tweets profile pciture...');
                 }
-            }
-              
-            fs.rmdirSync(dirPath);
-         }
-        catch(e) { return; }
+                if (removeSelf) {
+                    fs.rmdirSync(dirPath);
+                }
+               } else {
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', 'Ops! No profile picture cached...');
+               }
+
       }
     
     
@@ -54,7 +63,8 @@ export default class SettingsProvider implements vscode.TreeDataProvider<Item> {
     fetchTrending(): Thenable<any> {
         return Promise.resolve([
             new Item ('Open VSCODE TWEET Settings', '', vscode.TreeItemCollapsibleState.None, {command: 'settings.openVScodeTweetSettings', title: 'Open VSCODE TWEET Settings.'}),
-            new Item ('Clear Tweets Profile Pictures Cache', '', vscode.TreeItemCollapsibleState.None, {command: 'vscodeTweet.clearCache', title: 'Clear tweets profile picture cache.'}),
+            new Item ('Reload VSCODE TWEET', 'Use to reload vscode tweet after change in twitter API configuration', vscode.TreeItemCollapsibleState.None, {command: 'workbench.action.reloadWindow', title: 'Reload VSCODE TWEET'}),
+            new Item ('Clear Tweets Profile Picture Cache', '', vscode.TreeItemCollapsibleState.None, {command: 'vscodeTweet.clearCache', title: 'Clear tweets profile picture cache.'}),
             new Item ('About VSCODE TWEET', '', vscode.TreeItemCollapsibleState.None, {command: 'vscodeTweet.about', title: 'Open About VSCODE TWEET'})
         ]);
     }
@@ -86,11 +96,6 @@ export class Item extends vscode.TreeItem {
 		public readonly command?: vscode.Command
 	) {
 		super(label, collapsibleState);
-    }
-    
-    get description(): string
-    {
-        return this.desc;
     }
 
 	get tooltip(): string {

@@ -101,7 +101,6 @@ export  class PostTweetProvider implements vscode.TreeDataProvider<Item> {
         let pics_exists = this.pathExists(path.join(__filename, '..', '..', 'resources', 'profilePictures', username+'.jpg'));
 
         if (!pics_exists) {
-            // console.log(username, "pic does not exits");
             const options = {
                 url: pics_url,
                 dest: path.join(__filename, '..', '..', 'resources', 'profilePictures', username+'.jpg')                
@@ -110,9 +109,7 @@ export  class PostTweetProvider implements vscode.TreeDataProvider<Item> {
               async function downloadIMG() {
                 try {
                   const { filename, image } = await download.image(options);
-                //   console.log(filename); 
                 } catch (e) {
-                //   console.error(e);
                 }
               }
                
@@ -121,7 +118,6 @@ export  class PostTweetProvider implements vscode.TreeDataProvider<Item> {
 
         } else
         {
-            // console.log(username, "pic does  exits");
             return pics_exists;
         }
     }
