@@ -3,17 +3,17 @@
 	"displayName": "VSCode Tweet",
 	"description": "A Twitter client one click away at your VSCODE activity bar.",
 	"author": {
-        "name": "Victor Aremu",
-        "email": "victor.olorunbunmi@gmail.com"
-    },
+		"name": "Victor Aremu",
+		"email": "victor.olorunbunmi@gmail.com"
+	},
 	"publisher": "ahkohd",
 	"homepage": "https://github.com/ahkohd/vscode-tweet/blob/master/README.md",
 	"icon": "resources/vscode-tweet.png",
 	"repository": {
-        "type": "git",
-        "url": "https://github.com/ahkohd/vscode-tweet.git"
-    },
-	"version": "0.0.1",
+		"type": "git",
+		"url": "https://github.com/ahkohd/vscode-tweet.git"
+	},
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
@@ -39,8 +39,8 @@
 					"description": "Number of Recent Tweets to fetch."
 				},
 				"vscodeTweet.consumer_key": {
-						"type": "string",
-						"description": "Your Twitter app customer key"
+					"type": "string",
+					"description": "Your Twitter app customer key"
 				},
 				"vscodeTweet.consumer_secret": {
 					"type": "string",
