@@ -1,7 +1,7 @@
 # VSCODE TWEET
 A Twitter client one click away at your VSCODE activity bar.
 
-![VSCODE TWEET Demo](https://i.imgur.com/xemQa8I.gif)
+![VSCODE TWEET Demo](https://imgur.com/EcIrwRQ.gif)
 
 ## Features
 - Post new tweets (Update status).
