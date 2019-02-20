@@ -1,7 +1,7 @@
 # VS CODE TWEET
 A Twitter client one click away at your VS CODE activity bar.
 
-![VSCODE TWEET Demo](./demo.gif)
+![VSCODE TWEET Demo](./screenshots/demo.gif)
 
 ## Features
 - Post new tweets (Update status).
@@ -41,7 +41,7 @@ Once the **VS CODE TWEET** settings UI is opened, Search for `tweet` or goto to 
 A way to easily reload the window is to click the Twitter Icon at the side activity bar, under  **VS CODE TWEET** Settings section, click on `Reload VS CODE TWEET` option in the list.
 
 ###  NOTE
-Still unable to set up, follow this link for a step by step detailed tutorial on [how to set it up.](https://medium.com/@victoraremu/tweeting-from-your-favorite-text-editor-uhh-vs-code-tweet)
+Still unable to set up, follow this link for a step by step detailed tutorial on [how to set it up.](https://link.medium.com/pcRknlgTsU)
 
 
 ## Contributing
