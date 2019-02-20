@@ -1,6 +1,8 @@
 # VSCODE TWEET
 A Twitter client one click away at your VSCODE activity bar.
 
+![VSCODE TWEET Demo](https://i.imgur.com/xemQa8I.gif)
+
 ## Features
 - Post new tweets (Update status).
 - View profile details
@@ -32,10 +34,16 @@ Under the **Keys and Tokens** section of your Twitter app at the twitter develop
 
 ## 4. Activate VSCODE TWEET and Setup API Credentials
 Upon activation, VSCODE TWEET prompts you to setup your Twitter's API credentials.
-Once the **VSCODE TWEET** settings UI is opened, Search for `tweet` or goto to the extension section at the side and locate **VSCODE TWEET**. You should now see **VSCODE TWEET** extension settings. Under the Twitter API credentials field, fill in the credentials you got earlier correctly into the appropraite fields.
+Once the **VSCODE TWEET** settings UI is opened, Search for `tweet` or goto to the extension section at the side and locate **VSCODE TWEET**. You should now see **VSCODE TWEET** extension settings. Under the Twitter API credentials fields, fill in the credentials you got earlier correctly into the appropraite fields.
 
 ### NOTE
     After setting up credentials, You need to reload the window or VSCODE TWEET for the API Credentials to work.
-A way to easily reload the window is to clikc the Twitter Icon at the side activity bar, under  **VSCODE TWEET** Settings section, click on `Reload VSCODE TWEET` option in the list.
+A way to easily reload the window is to click the Twitter Icon at the side activity bar, under  **VSCODE TWEET** Settings section, click on `Reload VSCODE TWEET` option in the list.
 
-## 5. And We Are Done
+###  NOTE
+Still finding unable to setup, follow this link for a step by step detail tutorial on [how to set it up.](http://medium.com)
+
+
+## Contributing
+ - Your commits conform to the conventions established [here
+](https://github.com/conventional-changelog-archived-repos/conventional-changelog-angular/blob/master/convention.md)

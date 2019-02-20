@@ -169,6 +169,12 @@ export default class UserWallCommands
         });
     });
 
-    
+    if (vscode.workspace.getConfiguration().get('vscodeTweet.refreshTweetsAutomatically')) {
+        // set interval to reload tweets
+        setInterval(()=> {
+            vscode.commands.executeCommand('userWall.refresh');
+        }, (<number>vscode.workspace.getConfiguration().get('vscodeTweet.reloadTweetsEvery')));
+    }
+
   }
 }

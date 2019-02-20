@@ -116,3 +116,13 @@ export class Item extends vscode.TreeItem {
 	contextValue = 'trending';
 
 }
+
+
+export function TrendingRefresh()
+{
+    if (vscode.workspace.getConfiguration().get('vscodeTweet.refreshTweetsAutomatically')) {
+        setInterval(()=> {
+            vscode.commands.executeCommand('trending.refresh');
+        }, (<number>vscode.workspace.getConfiguration().get('vscodeTweet.reloadTweetsEvery')));
+    }
+}

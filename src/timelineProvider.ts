@@ -14,15 +14,13 @@ export class TweetModel
 
     
     constructor(private client: Twitter) {
-
     }
     
 
     getRawTweets(): Promise<Twitter.ResponseData> {
-
         return new Promise((callback, error) => {
 
-        	const getNumbersOfRecentTweetsToFetch = vscode.workspace.getConfiguration().get('vscodeTweet.numberOfActivitiesTweets');
+        	const getNumbersOfRecentTweetsToFetch = vscode.workspace.getConfiguration().get('vscodeTweet.numberOfRecentTweets') || 40;
             this.client.get(`statuses/home_timeline.json?count=${getNumbersOfRecentTweetsToFetch}&exclude_replies=true`, function(err, tweets, response) {
                 if (err){
                     vscode.commands.executeCommand('vscode-tweet.showMsg', 'err', ' Unable to fetch tweets. Error: '+err.message);
@@ -175,7 +173,8 @@ export class TweetModel
     public get roots(): Thenable<TweetNode[]> {
 		return this.fetchTweets().then(tweets => {
 			return  tweets;
-		});
+        });
+    
     }
     
 
@@ -205,7 +204,9 @@ export class TimelineProvider implements vscode.TreeDataProvider<TweetNode> {
     private _onDidChangeTreeData: vscode.EventEmitter<any> = new vscode.EventEmitter<any>();
     readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData.event;
     
-    constructor(private readonly model: TweetModel) { }
+    constructor(private readonly model: TweetModel) { 
+
+    }
 
     public refresh(item?: any): any {
         if (item) {

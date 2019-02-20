@@ -9,7 +9,6 @@ export default class TimelineCommands
   constructor(client: Twitter)
   {
 
-
     // Register retweet...
     vscode.commands.registerCommand('twitterTimeline.retweet', (node: any | TweetNode) => {
             vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', ' Retweeting...');
@@ -170,6 +169,14 @@ export default class TimelineCommands
         });
     });
 
-    
+
+
+    if (vscode.workspace.getConfiguration().get('vscodeTweet.refreshTweetsAutomatically')) {
+        setInterval(()=> {
+            vscode.commands.executeCommand('twitterTimeline.refresh');
+        }, (<number>vscode.workspace.getConfiguration().get('vscodeTweet.reloadTweetsEvery')));
+       
+    }
+     
   }
 }

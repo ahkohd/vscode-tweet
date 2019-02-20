@@ -10,7 +10,7 @@ import UserWallCommands from './userWallCommands';
 import SettingsProvider from './SettingsProvider';
 
 
-import { TrendingTweetsProvider } from './TrendingTweetsProvider';
+import { TrendingTweetsProvider, TrendingRefresh } from './TrendingTweetsProvider';
 
 export function activate(context: vscode.ExtensionContext) {
 	// Register command to show notifications or vscode tweets
@@ -67,6 +67,7 @@ function  execute(credentialArray: Array<string | undefined>, context: any) {
 	new UserWall(context, client);
 
 	vscode.window.registerTreeDataProvider('trending', new TrendingTweetsProvider(client));
+	TrendingRefresh();
 	vscode.window.registerTreeDataProvider('vscodeTweetSettings', new SettingsProvider());
 
 	new TimelineCommands(client);

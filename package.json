@@ -43,6 +43,11 @@
 					"type": "string",
 					"description": "Your Twitter app access token secret"
 				},
+				"vscodeTweet.refreshTweetsAutomatically": {
+					"type": "boolean",
+					"default": true,
+					"description": "Refresh tweets automatically?"
+				},
 				"vscodeTweet.numberOfActivitiesTweets": {
 					"type": "number",
 					"default": 40,
@@ -50,7 +55,7 @@
 				},
 				"vscodeTweet.reloadTweetsEvery": {
 					"type": "number",
-					"default": 15000,
+					"default": 120000,
 					"description": "Refresh tweets every what seconds?"
 				},
 				"vscodeTweet.trendingTweetsLocation": {
