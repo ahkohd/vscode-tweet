@@ -1,7 +1,7 @@
 # VS CODE TWEET
 A Twitter client one click away at your VS CODE activity bar.
 
-![VSCODE TWEET Demo](./resources/demo.gif)
+![VSCODE TWEET Demo](./demo.gif)
 
 ## Features
 - Post new tweets (Update status).
