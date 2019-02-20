@@ -44,7 +44,7 @@ export default class SettingsProvider implements vscode.TreeDataProvider<Item> {
                     } else {
                         this.rmDir(filePath);
                     }
-                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', 'Successfully cleared cached tweets profile pciture...');
+                    vscode.commands.executeCommand('vscode-tweet.showMsg', 'info', 'Successfully cleared cached tweets profile picture...');
                 }
                 if (removeSelf) {
                     fs.rmdirSync(dirPath);
