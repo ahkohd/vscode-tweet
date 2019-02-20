@@ -1,5 +1,5 @@
-# VSCODE TWEET
-A Twitter client one click away at your VSCODE activity bar.
+# VS CODE TWEET
+A Twitter client one click away at your VS CODE activity bar.
 
 ![VSCODE TWEET Demo](./resources/demo.gif)
 
@@ -7,41 +7,41 @@ A Twitter client one click away at your VSCODE activity bar.
 - Post new tweets (Update status).
 - View profile details
 - View your timeline.
-- Favourite, Un-favorite tweets.
+- Favorite, Un-favorite tweets.
 - Reply to tweets and Retweets.
 - View your activities
 - Retweet and Un-retweet.
-- View trending hastags.
+- View trending hashtags.
 - Automatically checks for new tweets.
 
 # Setting Up
-## 1. Install VSCODE TWEET
-Install vscode tweet extension from visual studio code marketplace. [Install VSCODE TWEET](https://marketplace.visualstudio.com/items?itemName=ahkohd.vscode-tweet)
+## 1. Install VS CODE TWEET
+Install vs code tweet extension from visual studio code marketplace. [Install VS CODE TWEET](https://marketplace.visualstudio.com/items?itemName=ahkohd.vscode-tweet)
 
 ## 2. Create A Twitter App
-In other to use VSCODE TWEET, you need to create a twitter at the twitter developer console. [http://developer.twitter.com](http://developer.twitter.com)
+In other to use VS CODE TWEET, you need to create a twitter at the Twitter developer console. [http://developer.twitter.com](http://developer.twitter.com)
 
 ### Note:
     1. Set the Twitter app permission to read and write.
-    2. You can disable oAuth authenticaion, it is of no need for this application
+    2. You can disable OAuth authentication, it is of no need for this application
 
 ## 3. Get Twitter App API Credentials
-Under the **Keys and Tokens** section of your Twitter app at the twitter developer console. Note / Copy down the following
+Under the **Keys and Tokens** section of your Twitter app at the Twitter developer console. Note / Copy down the following
 - Consumer API Key
 - Consumer API Secret
 - Access Token Key
 - Access Token Secret
 
-## 4. Activate VSCODE TWEET and Setup API Credentials
-Upon activation, VSCODE TWEET prompts you to setup your Twitter's API credentials.
-Once the **VSCODE TWEET** settings UI is opened, Search for `tweet` or goto to the extension section at the side and locate **VSCODE TWEET**. You should now see **VSCODE TWEET** extension settings. Under the Twitter API credentials fields, fill in the credentials you got earlier correctly into the appropraite fields.
+## 4. Activate VS CODE TWEET and Setup API Credentials
+Upon activation, VS CODE TWEET prompts you to set up your Twitter's API credentials.
+Once the **VS CODE TWEET** settings UI is opened, Search for `tweet` or goto to the extension section at the side and locate **VS CODE TWEET**. You should now see **VS CODE TWEET** extension settings. Under the Twitter API credentials fields, fill in the credentials you got earlier correctly into the appropriate fields.
 
 ### NOTE
-    After setting up credentials, You need to reload the window or VSCODE TWEET for the API Credentials to work.
-A way to easily reload the window is to click the Twitter Icon at the side activity bar, under  **VSCODE TWEET** Settings section, click on `Reload VSCODE TWEET` option in the list.
+    After setting up credentials, You need to reload the window or VS CODE TWEET for the API Credentials to work.
+A way to easily reload the window is to click the Twitter Icon at the side activity bar, under  **VS CODE TWEET** Settings section, click on `Reload VS CODE TWEET` option in the list.
 
 ###  NOTE
-Still finding unable to setup, follow this link for a step by step detailed tutorial on [how to set it up.](https://medium.com/@victoraremu/tweeting-from-your-favorite-text-editor-uhh-vs-code-tweet)
+Still unable to set up, follow this link for a step by step detailed tutorial on [how to set it up.](https://medium.com/@victoraremu/tweeting-from-your-favorite-text-editor-uhh-vs-code-tweet)
 
 
 ## Contributing
