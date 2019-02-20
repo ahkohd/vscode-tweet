@@ -1,7 +1,18 @@
 {
-	"name": "vscode-tweet",
+	"name": "VSCode Tweet",
 	"displayName": "vscode-tweet",
 	"description": "Extension that allows you to use twitter in vscode",
+	"author": {
+        "name": "Victor Aremu",
+        "email": "victor.olorunbunmi@gmail.com"
+    },
+	"publisher": "victor",
+	"homepage": "https://github.com/ahkohd/vscode-tweet/blob/master/README.md",
+	"icon": "resources/vscode-tweet.png",
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/ahkohd/vscode-tweet.git"
+    },
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.31.0"

@@ -41,7 +41,7 @@ Once the **VSCODE TWEET** settings UI is opened, Search for `tweet` or goto to t
 A way to easily reload the window is to click the Twitter Icon at the side activity bar, under  **VSCODE TWEET** Settings section, click on `Reload VSCODE TWEET` option in the list.
 
 ###  NOTE
-Still finding unable to setup, follow this link for a step by step detail tutorial on [how to set it up.](http://medium.com)
+Still finding unable to setup, follow this link for a step by step detailed tutorial on [how to set it up.](https://medium.com/@victoraremu/tweeting-from-your-favorite-text-editor-uhh-vs-code-tweet)
 
 
 ## Contributing
