@@ -18,7 +18,9 @@ A Twitter client one click away at your VS CODE activity bar.
 
 # Setting Up
 ## 1. Install VS CODE TWEET
-Install vs code tweet extension from visual studio code marketplace. [Install VS CODE TWEET](https://marketplace.visualstudio.com/items?itemName=ahkohd.vscode-tweet)
+Install vs code tweet extension from visual studio code marketplace. [Install VS CODE TWEET](https://marketplace.visualstudio.com/items?itemName=ahkohd.vscode-tweet) 
+
+>[Follow this link for a detailed tutorial on how to set vscode tweet up](https://link.medium.com/pcRknlgTsU)
 
 ## 2. Create A Twitter App
 In other to use VS CODE TWEET, you need to create a twitter at the Twitter developer console. [http://developer.twitter.com](http://developer.twitter.com)
