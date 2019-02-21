@@ -1,3 +1,4 @@
+![vscode tweet logo](./screenshots/logo.png)
 # VS CODE TWEET
 A Twitter client one click away at your VS CODE activity bar.
 
