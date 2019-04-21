@@ -15,6 +15,11 @@ import { TrendingTweetsProvider, TrendingRefresh } from './TrendingTweetsProvide
 export function activate(context: vscode.ExtensionContext) {
 	// Register command to show notifications or vscode tweets
 	let disposable = vscode.commands.registerCommand('vscode-tweet.showMsg', (type, msg)  => {
+		if(vscode.workspace.getConfiguration().get('vscodeTweet.dontdistrubmode') === true)
+		{
+			// prvent showing notifications  when in don't distrub mode...
+			return;
+		}
 		if (type === 'err') {
 			vscode.window.showErrorMessage('VSCODE TWEET / '+msg);
 		} else if (type === 'info')

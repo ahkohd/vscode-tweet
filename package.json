@@ -59,6 +59,11 @@
 					"default": true,
 					"description": "Refresh tweets automatically?"
 				},
+				"vscodeTweet.dontdistrubmode": {
+					"type": "boolean",
+					"default": false,
+					"description": "Don't disturb mode? (Disables Vscode Tweet Notifications)"
+				},
 				"vscodeTweet.numberOfActivitiesTweets": {
 					"type": "number",
 					"default": 40,
