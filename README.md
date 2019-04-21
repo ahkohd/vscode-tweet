@@ -5,6 +5,16 @@ A Twitter client one click away at your VS CODE activity bar.
 ![VSCODE TWEET Demo](./screenshots/shot.gif)
 
 
+## What's New
+**Don't Disturb Mode**: 
+In this update, I've added  _Don't Distrub Mode_ option that disables VSCODE Tweet notifications. A requested feature from this github issue: [Allow changing loading/fetching tweets notification](https://github.com/ahkohd/vscode-tweet/issues/1)
+
+To enable Don't Distrub Mode:
+```
+Open Vscode Tweet Settings > Search For dontdisturb > Check the box to enable this feature.
+```
+
+
 ## Features
 - Post new tweets (Update status).
 - View profile details
