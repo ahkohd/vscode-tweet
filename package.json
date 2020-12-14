@@ -413,7 +413,7 @@
 	"dependencies": {
 		"@types/twitter": "^1.7.0",
 		"get-twitter-bearer-token": "^1.0.0",
-		"image-downloader": "^3.5.0",
+		"image-downloader": "^4.0.2",
 		"node-time-ago": "^1.0.0",
 		"twitter": "^1.7.1"
 	}
