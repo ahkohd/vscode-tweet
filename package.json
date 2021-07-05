@@ -411,7 +411,7 @@
 		"@types/mocha": "^5.2.6"
 	},
 	"dependencies": {
-		"@types/twitter": "^1.7.0",
+		"@types/twitter": "^1.7.1",
 		"get-twitter-bearer-token": "^1.0.0",
 		"image-downloader": "^3.5.0",
 		"node-time-ago": "^1.0.0",
